@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>myGene Design Clinic (GDC) | Boutique Optical Engineering & Design IP Clinic</title>
+  <meta name="description" content="공학적 구조 설계(발명특허)와 심미적 외관 조형(디자인특허)을 결합한 부티크 기술·디자인 IP 클리닉 myGene Design Clinic" />
+  
+  <!-- Favicon: Option 01 Convergence SVG -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230A192F'/%3E%3Cpath d='M50 12V88M12 50H88' stroke='%23FFFFFF' stroke-width='6'/%3E%3Cpath d='M72 32A28 28 0 1 0 78 50H54' fill='none' stroke='%23A8B2C1' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E" />
+
+  <!-- Google Fonts: Inter & Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN (Zero-Cost Prototyping) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: {
+              950: '#050D1A',
+              900: '#0A192F',
+              800: '#112240',
+              700: '#1D3557',
+            },
+            silver: {
+              100: '#F8FAFC',
+              200: '#E2E8F0',
+              300: '#CBD5E1',
+              400: '#A8B2C1',
+              500: '#8892B0',
+            },
+            accent: '#38BDF8'
+          },
+          fontFamily: {
+            sans: ['Inter', 'Noto Sans KR', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Three.js CDN (MIT License) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    body {
+      background-color: #0A192F;
+      color: #F8FAFC;
+      overflow-x: hidden;
+    }
+    .glass-card {
+      background: rgba(17, 34, 64, 0.65);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(168, 178, 193, 0.16);
+      transition: all 0.3s ease;
+    }
+    .glass-card:hover {
+      border-color: rgba(56, 189, 248, 0.5);
+      transform: translateY(-4px);
+    }
+    .grid-bg {
+      background-image: 
+        linear-gradient(to right, rgba(168, 178, 193, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(168, 178, 193, 0.05) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-sky-400 selection:text-navy-900">
+
+  <!-- Navigation Header -->
+  <header class="fixed top-0 w-full z-50 bg-navy-900/85 backdrop-blur-md border-b border-silver-400/15">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <!-- Approved Option 01 BI Logo -->
+      <a href="#" class="flex items-center gap-3.5 group">
+        <svg class="w-10 h-10 transition-transform duration-300 group-hover:scale-105" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="silverGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#FFFFFF" />
+              <stop offset="50%" stop-color="#A8B2C1" />
+              <stop offset="100%" stop-color="#64748B" />
+            </linearGradient>
+          </defs>
+          <!-- Reinforced 1.5x Precision Crosshair -->
+          <line x1="50" y1="8" x2="50" y2="92" stroke="#F8FAFC" stroke-width="5.5" />
+          <line x1="8" y1="50" x2="92" y2="50" stroke="#F8FAFC" stroke-width="5.5" />
+          <!-- Outer Navy/Cyan Precision Arc -->
+          <path d="M 74 28 A 32 32 0 1 0 82 50 H 54" stroke="#38BDF8" stroke-width="6.5" stroke-linecap="butt" />
+          <!-- Inner Metallic Silver Dynamic 'G' Arc -->
+          <path d="M 68 35 A 23 23 0 1 0 73 54 H 54 V 66" stroke="url(#silverGrad)" stroke-width="5.5" stroke-linecap="butt" />
+        </svg>
+        <div class="flex flex-col">
+          <span class="text-lg font-bold tracking-tight text-white leading-none">
+            myGene <span class="font-light text-silver-400">Design Clinic</span>
+          </span>
+          <span class="text-[10px] uppercase tracking-[0.22em] text-sky-400 mt-1 font-medium">
+            GDC · Engineering &amp; IP Studio
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-silver-400">
+        <a href="#philosophy" class="hover:text-white transition-colors">Philosophy</a>
+        <a href="#twotrack" class="hover:text-white transition-colors">Two-Track IP</a>
+        <a href="#capabilities" class="hover:text-white transition-colors">Capabilities</a>
+        <a href="#organization" class="hover:text-white transition-colors">Clinic Team</a>
+        <a href="#contact" class="px-4 py-2 rounded border border-sky-400/50 text-sky-400 hover:bg-sky-400 hover:text-navy-900 transition-all">
+          Consultation
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section with Interactive Three.js Canvas -->
+  <section class="relative min-h-screen pt-20 flex items-center grid-bg overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 py-16 grid lg:grid-cols-12 gap-12 items-center w-full">
+      <!-- Left Copy -->
+      <div class="lg:col-span-7 z-10 space-y-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-navy-800 border border-silver-400/20 text-xs text-sky-400 tracking-wider uppercase">
+          <span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>
+          Human Ingenuity × Optical Precision
+        </div>
+        
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.15]">
+          Where Engineering Rigor <br />
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-silver-300 to-sky-400">
+            Meets Aesthetic IP.
+          </span>
+        </h1>
+        
+        <p class="text-base sm:text-lg text-silver-400 max-w-2xl leading-relaxed font-light">
+          AI 시대, 인간 고유의 직관과 설계 역량(<strong class="text-white font-medium">Gene</strong>)을 발현합니다. 
+          <strong class="text-white font-medium">myGene Design Clinic(GDC)</strong>은 광도파로·정밀 기구 메커니즘의 
+          <span class="text-sky-400">발명특허</span>와 시그니처 외관 조형의 <span class="text-sky-400">디자인특허</span>를 
+          단일 통합 프로세스로 완성하는 부티크 기술·디자인 클리닉입니다.
+        </p>
+
+        <div class="pt-4 flex flex-wrap gap-4">
+          <a href="#twotrack" class="px-6 py-3.5 bg-white text-navy-900 font-semibold rounded text-sm hover:bg-silver-200 transition-colors">
+            Two-Track IP 프로세스 보기
+          </a>
+          <a href="#capabilities" class="px-6 py-3.5 bg-navy-800/80 text-white border border-silver-400/30 font-medium rounded text-sm hover:border-white transition-colors">
+            개념 설계 쇼케이스
+          </a>
+        </div>
+
+        <!-- Key Metrics -->
+        <div class="pt-8 grid grid-cols-3 gap-6 border-t border-silver-400/15 max-w-xl">
+          <div>
+            <div class="text-2xl font-bold text-white">2-Track</div>
+            <div class="text-xs text-silver-500 mt-1">발명특허 + 디자인특허 동시 권리화</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-white">±0.03mm</div>
+            <div class="text-xs text-silver-500 mt-1">광학·기구 공차 검증 기준</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-white">6-View</div>
+            <div class="text-xs text-silver-500 mt-1">디자인출원 표준 도면 완결성</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right 3D Optical Convergence Canvas -->
+      <div class="lg:col-span-5 relative flex items-center justify-center">
+        <div class="relative w-full aspect-square max-w-[460px]">
+          <div id="canvas-container" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
+          <div class="absolute bottom-3 left-1/2 -translate-x-1/2 text-[11px] text-silver-500 tracking-widest uppercase pointer-events-none bg-navy-900/70 px-3 py-1 rounded-full border border-silver-400/15">
+            Interactive 3D Optical Core · Drag to Inspect
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 1: Philosophy -->
+  <section id="philosophy" class="py-24 bg-navy-950 border-t border-silver-400/10">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="max-w-3xl">
+        <span class="text-xs font-semibold tracking-[0.2em] text-sky-400 uppercase">01 / Core Philosophy</span>
+        <h2 class="text-3xl sm:text-4xl font-bold text-white mt-3">
+          기술과 디자인의 분절을 끝내는 통합 클리닉
+        </h2>
+        <p class="text-silver-400 mt-4 leading-relaxed">
+          기존의 제품 개발에서는 디자인 스튜디오가 외관을 먼저 그린 뒤 엔지니어가 내부 구조를 억지로 끼워 맞추거나, 
+          반대로 공학적 스펙만 앞세워 심미성과 권리 방어력을 놓치는 일이 빈번했습니다. GDC는 초기 기획 단계부터 
+          광학 엔지니어, 산업 디자이너, 변리사가 하나의 테이블에서 트레이드오프를 조율합니다.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Two-Track IP Architecture -->
+  <section id="twotrack" class="py-24 bg-navy-900 border-t border-silver-400/10">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="mb-14">
+        <span class="text-xs font-semibold tracking-[0.2em] text-sky-400 uppercase">02 / Two-Track IP Architecture</span>
+        <h2 class="text-3xl sm:text-4xl font-bold text-white mt-3">발명특허와 디자인특허의 입체적 권리 포트폴리오</h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Track A -->
+        <div class="glass-card rounded-xl p-8">
+          <div class="flex items-center justify-between mb-6">
+            <span class="px-3 py-1 text-xs font-semibold bg-sky-400/15 text-sky-400 rounded border border-sky-400/30">
+              TRACK A · INVENTION PATENT
+            </span>
+            <span class="text-xs text-silver-500 font-mono">Optical &amp; Mechanical Lab</span>
+          </div>
+          <h3 class="text-2xl font-bold text-white mb-3">공학적 기능 및 내부 구조 권리화</h3>
+          <p class="text-sm text-silver-400 leading-relaxed mb-6">
+            단순 아이디어가 아닌 물리적 수치와 작동 원리로 입증된 기술적 해결 수단을 독립항(Claim 1)으로 구축합니다.
+          </p>
+          <ul class="space-y-3 text-sm text-silver-300 border-t border-silver-400/15 pt-5">
+            <li class="flex items-start gap-2.5">
+              <span class="text-sky-400 mt-0.5">▹</span>
+              <span>광도파로(Waveguide) 및 회절 광학계 결합 효율 최적화 구조</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="text-sky-400 mt-0.5">▹</span>
+              <span>패시브 에어플로우 덕트·방열 유로 및 초정밀 기구 공차 메커니즘</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="text-sky-400 mt-0.5">▹</span>
+              <span>선행기술 회피 설계(Design-Around) 기반 심사관 거절이유(OA) 선제 방어</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Track B -->
+        <div class="glass-card rounded-xl p-8">
+          <div class="flex items-center justify-between mb-6">
+            <span class="px-3 py-1 text-xs font-semibold bg-silver-400/15 text-silver-200 rounded border border-silver-400/30">
+              TRACK B · DESIGN PATENT
+            </span>
+            <span class="text-xs text-silver-500 font-mono">Design Studio</span>
+          </div>
+          <h3 class="text-2xl font-bold text-white mb-3">시그니처 외관 조형 및 CMF 독점화</h3>
+          <p class="text-sm text-silver-400 leading-relaxed mb-6">
+            공학적 제약 조건을 우아한 인체공학적 비례와 표면 마감으로 승화시켜 모방 불가능한 외관 독점권을 확보합니다.
+          </p>
+          <ul class="space-y-3 text-sm text-silver-300 border-t border-silver-400/15 pt-5">
+            <li class="flex items-start gap-2.5">
+              <span class="text-silver-300 mt-0.5">▹</span>
+              <span>전체디자인 및 핵심 요부 중심의 부분디자인(Partial Design) 분리 출원</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="text-silver-300 mt-0.5">▹</span>
+              <span>특허청 출원 규격에 부합하는 정밀 6면도(정·배·좌·우·평·저면) 및 사시도 명세</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="text-silver-300 mt-0.5">▹</span>
+              <span>광학 투과율·반사율을 고려한 고기능성 CMF(소재·질감·컬러) 사양 정의</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Conceptual Capabilities Showcase (IP-Cleared Public Principles) -->
+  <section id="capabilities" class="py-24 bg-navy-950 border-t border-silver-400/10">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-4">
+        <div>
+          <span class="text-xs font-semibold tracking-[0.2em] text-sky-400 uppercase">03 / Conceptual Demonstrations</span>
+          <h2 class="text-3xl sm:text-4xl font-bold text-white mt-3">공지 기술 기반 설계·권리화 역량 데모</h2>
+        </div>
+        <p class="text-xs text-silver-500 max-w-md">
+          * GDC의 모든 신규 출원 예정 프로젝트는 철저히 비공개(NDA)로 관리되며, 본 섹션은 보편적 공학 원리를 재구성한 개념 예시입니다.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Demo Card 1 -->
+        <div class="glass-card rounded-xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="h-40 rounded-lg bg-navy-900 border border-silver-400/15 mb-5 flex items-center justify-center relative overflow-hidden">
+              <!-- Original Conceptual SVG Diagram: Waveguide Coupling -->
+              <svg class="w-48 h-28" viewBox="0 0 200 100" fill="none">
+                <rect x="20" y="38" width="160" height="24" rx="3" stroke="#A8B2C1" stroke-width="1.5" fill="#112240"/>
+                <path d="M35 20 L55 42 L85 58 L115 42 L145 58 L165 80" stroke="#38BDF8" stroke-width="2" stroke-dasharray="4 2"/>
+                <polygon points="48,38 62,38 55,46" fill="#38BDF8"/>
+                <polygon points="138,62 152,62 145,54" fill="#38BDF8"/>
+              </svg>
+              <span class="absolute top-2.5 right-2.5 text-[10px] font-mono text-silver-500">CONCEPT-01</span>
+            </div>
+            <h3 class="text-lg font-bold text-white">회절 광도파로 결합 아키텍처</h3>
+            <p class="text-xs text-silver-400 mt-2 leading-relaxed">
+              입력 커플러와 출력 격자 간의 광 경로 손실을 최소화하는 다층 박막 구조 및 초경량 웨어러블 프레임 통합 설계.
+            </p>
+          </div>
+          <div class="mt-5 pt-4 border-t border-silver-400/10 flex justify-between text-[11px] text-silver-500 font-mono">
+            <span>OPTICAL / WAVEGUIDE</span>
+            <span class="text-sky-400">INVENTION + DESIGN</span>
+          </div>
+        </div>
+
+        <!-- Demo Card 2 -->
+        <div class="glass-card rounded-xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="h-40 rounded-lg bg-navy-900 border border-silver-400/15 mb-5 flex items-center justify-center relative overflow-hidden">
+              <!-- Original Conceptual SVG Diagram: Venturi Airflow -->
+              <svg class="w-48 h-28" viewBox="0 0 200 100" fill="none">
+                <path d="M25 30 Q100 45 175 25" stroke="#A8B2C1" stroke-width="2"/>
+                <path d="M25 70 Q100 55 175 75" stroke="#A8B2C1" stroke-width="2"/>
+                <path d="M30 50 H170" stroke="#38BDF8" stroke-width="2"/>
+                <path d="M155 44 L170 50 L155 56" stroke="#38BDF8" stroke-width="2" fill="none"/>
+              </svg>
+              <span class="absolute top-2.5 right-2.5 text-[10px] font-mono text-silver-500">CONCEPT-02</span>
+            </div>
+            <h3 class="text-lg font-bold text-white">유체 벤추리 패시브 공조 하우징</h3>
+            <p class="text-xs text-silver-400 mt-2 leading-relaxed">
+              외부 주행·이동 기류의 압력차를 이용해 내부 결로와 열을 배출하는 유선형 쉘 곡률 및 내장 덕트 기구 설계.
+            </p>
+          </div>
+          <div class="mt-5 pt-4 border-t border-silver-400/10 flex justify-between text-[11px] text-silver-500 font-mono">
+            <span>AERODYNAMICS / SHELL</span>
+            <span class="text-sky-400">INVENTION + DESIGN</span>
+          </div>
+        </div>
+
+        <!-- Demo Card 3 -->
+        <div class="glass-card rounded-xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="h-40 rounded-lg bg-navy-900 border border-silver-400/15 mb-5 flex items-center justify-center relative overflow-hidden">
+              <!-- Original Conceptual SVG Diagram: 6-View Orthographic Grid -->
+              <svg class="w-48 h-28" viewBox="0 0 200 100" fill="none">
+                <rect x="45" y="25" width="45" height="50" stroke="#F8FAFC" stroke-width="1.5"/>
+                <circle cx="67.5" cy="50" r="12" stroke="#38BDF8" stroke-width="1.5"/>
+                <rect x="105" y="25" width="45" height="50" stroke="#A8B2C1" stroke-width="1.5" stroke-dasharray="3 2"/>
+                <line x1="35" y1="50" x2="160" y2="50" stroke="#64748B" stroke-width="1"/>
+              </svg>
+              <span class="absolute top-2.5 right-2.5 text-[10px] font-mono text-silver-500">CONCEPT-03</span>
+            </div>
+            <h3 class="text-lg font-bold text-white">6면도 기반 부분디자인 권리화</h3>
+            <p class="text-xs text-silver-400 mt-2 leading-relaxed">
+              실선(권리 청구 부분)과 파선(비청구 부분)의 전략적 분리를 통해 핵심 조형 요소의 우회 침해를 차단하는 도면 표준화.
+            </p>
+          </div>
+          <div class="mt-5 pt-4 border-t border-silver-400/10 flex justify-between text-[11px] text-silver-500 font-mono">
+            <span>IP STRATEGY / 6-VIEW</span>
+            <span class="text-sky-400">DESIGN PATENT</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Clinic Organization -->
+  <section id="organization" class="py-24 bg-navy-900 border-t border-silver-400/10">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="mb-14">
+        <span class="text-xs font-semibold tracking-[0.2em] text-sky-400 uppercase">04 / Integrated Executive Team</span>
+        <h2 class="text-3xl sm:text-4xl font-bold text-white mt-3">부티크 전문 조직 구성</h2>
+        <p class="text-silver-400 mt-2 text-sm">CEO Justine 총괄 아래 5개 전문 파트가 유기적으로 협업합니다.</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div class="glass-card p-5 rounded-lg">
+          <div class="text-xs text-sky-400 font-mono">Admin &amp; CFO</div>
+          <div class="text-lg font-bold text-white mt-1">Claire</div>
+          <p class="text-xs text-silver-400 mt-2 leading-relaxed">자본 배분, 프로젝트 원가 정산 및 무형자산 가치평가 총괄</p>
+        </div>
+        <div class="glass-card p-5 rounded-lg">
+          <div class="text-xs text-sky-400 font-mono">Optical &amp; System Lab</div>
+          <div class="text-lg font-bold text-white mt-1">Leo</div>
+          <p class="text-xs text-silver-400 mt-2 leading-relaxed">광도파로 광학계, 기구 공차 및 열유체 메커니즘 엔지니어링</p>
+        </div>
+        <div class="glass-card p-5 rounded-lg">
+          <div class="text-xs text-sky-400 font-mono">Design Studio</div>
+          <div class="text-lg font-bold text-white mt-1">Chloe</div>
+          <p class="text-xs text-silver-400 mt-2 leading-relaxed">외관 조형 컨셉, CMF 정의 및 디자인특허 6면도 시각 명세</p>
+        </div>
+        <div class="glass-card p-5 rounded-lg">
+          <div class="text-xs text-sky-400 font-mono">IP Legal Clinic</div>
+          <div class="text-lg font-bold text-white mt-1">Nathan</div>
+          <p class="text-xs text-silver-400 mt-2 leading-relaxed">선행문헌 회피 설계, 발명·디자인 투트랙 청구항 및 OA 방어</p>
+        </div>
+        <div class="glass-card p-5 rounded-lg">
+          <div class="text-xs text-sky-400 font-mono">IT &amp; Digital Solution</div>
+          <div class="text-lg font-bold text-white mt-1">Liam</div>
+          <p class="text-xs text-silver-400 mt-2 leading-relaxed">3D 웹 뷰어, 광학·재무 시뮬레이터 및 디지털 인프라 구축</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: Contact -->
+  <section id="contact" class="py-24 bg-navy-950 border-t border-silver-400/10">
+    <div class="max-w-3xl mx-auto px-6 text-center">
+      <span class="text-xs font-semibold tracking-[0.2em] text-sky-400 uppercase">05 / Project Inquiry</span>
+      <h2 class="text-3xl font-bold text-white mt-3">기술과 디자인의 IP 권리화 의뢰</h2>
+      <p class="text-sm text-silver-400 mt-3 mb-8">
+        초기 아이디어 단계의 공학적 타당성 검증부터 발명·디자인특허 출원 명세까지 GDC 임원진이 통합 검토합니다.
+      </p>
+      <a href="mailto:contact@mygenedesign.example.com" class="inline-flex items-center gap-2 px-8 py-4 bg-sky-400 text-navy-900 font-bold rounded text-sm hover:bg-sky-300 transition-colors">
+        클리닉 사전 검토 문의하기
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer with Mandatory IP Legal Disclaimer (Reviewed by Nathan) -->
+  <footer class="bg-navy-950 border-t border-silver-400/15 py-12 text-xs text-silver-500">
+    <div class="max-w-7xl mx-auto px-6 space-y-6">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div class="font-semibold text-silver-300">
+          myGene Design Clinic (GDC) · CEO Justine
+        </div>
+        <div class="font-mono text-[11px]">
+          © 2026 myGene Design Clinic. All Rights Reserved.
+        </div>
+      </div>
+      
+      <!-- IP Legal Disclaimer -->
+      <div class="p-4 rounded bg-navy-900/80 border border-silver-400/10 text-[11px] leading-relaxed text-silver-500">
+        <strong class="text-silver-400">[지식재산권 및 법적 면책 고지 / IP Legal Disclaimer]</strong><br />
+        본 웹사이트에 게시된 모든 3D 인터랙티브 모델, 광학 계통도 및 개념 설계 다이어그램은 myGene Design Clinic(GDC)의 공학 설계 및 IP 권리화 역량을 설명하기 위한 개념적 예시(Conceptual Demonstration)이며, 특정 제3자의 등록 특허·디자인·상표권을 침해하거나 모방할 의도가 없습니다. 또한 본 사이트에 수록된 GDC의 공식 브랜드 로고, 그래픽 에셋 및 독자적 설계 문서 일체는 관련 지식재산권 법령에 의해 보호받으며, 사전 서면 승인 없는 무단 복제 및 배포를 금합니다.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Three.js Interactive Optical Core Script -->
+  <script>
+    (function initOpticalCore() {
+      const container = document.getElementById('canvas-container');
+      if (!container || typeof THREE === 'undefined') return;
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+      camera.position.z = 5.2;
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(container.clientWidth, container.clientHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      container.appendChild(renderer.domElement);
+
+      const group = new THREE.Group();
+      scene.add(group);
+
+      // 1. Optical Prism Core (Icosahedron Wireframe + Inner Glass Core)
+      const coreGeo = new THREE.IcosahedronGeometry(1.15, 1);
+      const wireMat = new THREE.MeshBasicMaterial({
+        color: 0x38BDF8,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.45
+      });
+      const coreWire = new THREE.Mesh(coreGeo, wireMat);
+      group.add(coreWire);
+
+      const innerGeo = new THREE.OctahedronGeometry(0.75, 0);
+      const innerMat = new THREE.MeshBasicMaterial({
+        color: 0xA8B2C1,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.8
+      });
+      const innerCore = new THREE.Mesh(innerGeo, innerMat);
+      group.add(innerCore);
+
+      // 2. Precision Convergence Rings (Representing Option 01 Arcs)
+      const ring1Geo = new THREE.TorusGeometry(1.75, 0.018, 16, 100);
+      const ring1Mat = new THREE.MeshBasicMaterial({ color: 0xF8FAFC, transparent: true, opacity: 0.7 });
+      const ring1 = new THREE.Mesh(ring1Geo, ring1Mat);
+      ring1.rotation.x = Math.PI / 3;
+      group.add(ring1);
+
+      const ring2Geo = new THREE.TorusGeometry(2.05, 0.012, 16, 100);
+      const ring2Mat = new THREE.MeshBasicMaterial({ color: 0x38BDF8, transparent: true, opacity: 0.4 });
+      const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
+      ring2.rotation.y = Math.PI / 4;
+      group.add(ring2);
+
+      // 3. Precision Crosshair Axes (Representing Engineering Alignment)
+      const axisMat = new THREE.LineBasicMaterial({ color: 0xA8B2C1, transparent: true, opacity: 0.35 });
+      const xPts = [new THREE.Vector3(-2.5, 0, 0), new THREE.Vector3(2.5, 0, 0)];
+      const yPts = [new THREE.Vector3(0, -2.5, 0), new THREE.Vector3(0, 2.5, 0)];
+      group.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(xPts), axisMat));
+      group.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(yPts), axisMat));
+
+      // Mouse / Drag Interaction
+      let isDragging = false;
+      let prevMouse = { x: 0, y: 0 };
+      let targetRot = { x: 0.25, y: 0.4 };
+
+      container.addEventListener('pointerdown', (e) => {
+        isDragging = true;
+        prevMouse = { x: e.clientX, y: e.clientY };
+      });
+      window.addEventListener('pointerup', () => { isDragging = false; });
+      window.addEventListener('pointermove', (e) => {
+        if (!isDragging) return;
+        const dx = e.clientX - prevMouse.x;
+        const dy = e.clientY - prevMouse.y;
+        targetRot.y += dx * 0.008;
+        targetRot.x += dy * 0.008;
+        prevMouse = { x: e.clientX, y: e.clientY };
+      });
+
+      function animate() {
+        requestAnimationFrame(animate);
+        if (!isDragging) {
+          targetRot.y += 0.0035;
+        }
+        group.rotation.y += (targetRot.y - group.rotation.y) * 0.08;
+        group.rotation.x += (targetRot.x - group.rotation.x) * 0.08;
+
+        innerCore.rotation.y -= 0.008;
+        ring1.rotation.z += 0.002;
+        ring2.rotation.x -= 0.002;
+
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      window.addEventListener('resize', () => {
+        if (!container.clientWidth) return;
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+      });
+    })();
+  </script>
+</body>
+</html>
